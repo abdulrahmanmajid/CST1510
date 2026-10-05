@@ -4,6 +4,6 @@
 attempts = 3
 max_attempts = 3
 
-while attempts <= max_attempts
+while attempts <= max_attempts: # I had to add an ":" at the end of the statement.
     print("checking...")
     attempts += 1

@@ -2,64 +2,61 @@
 RECORD CHECK  -  my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
+Name  : Abdul Rahman Majid
+Lane  : AI
+Date  : 5/10/2026
 
 Run it:   python template.py
 
-Work through the numbered sections in order. Each one tells you what it must do.
-Delete these instructions as you replace them with your code.
+Type "quit" as the dataset name to stop.
 """
 
-# ==================================================================== INPUT
-# 1. Ask for your three values.
-#
-#    - the first is TEXT      (a name, a hostname, an IP)  -> no conversion needed
-#    - the second is a NUMBER (use float(), not int())
-#    - the third  is a NUMBER (use float(), not int())
+# keeps count of how many records came back OVER LIMIT
+over_limit_count = 0
 
-label = ""      # replace with an input() call
-value = 0.0     # replace with an input() call, converted with float()
-limit = 0.0     # replace with an input() call, converted with float()
+while True:
 
+    # ================================================================ INPUT
+    dataset_name = input("Dataset name (or 'quit'): ")
+    if dataset_name == "quit":
+        break
 
-# ================================================================== PROCESS
-# 2. Work out the difference and the percentage.       [Typical and above]
+    rows_loaded = float(input("Rows loaded: "))
+    rows_expected = float(input("Rows expected: "))
 
-difference = 0.0   # replace with your calculation
-percent = 0.0       # replace with your calculation
-# 3. Decide a status and store it in a variable called status.
-#
-#    Threshold : if / else        -> "OVER LIMIT" or "OK"
-#    Typical   : if / elif / else -> "OVER LIMIT" (100% or more),
-#                                     "WARNING" (90% or more), otherwise "OK"
+    # ============================================================== PROCESS
+    # rows still missing from the expected total
+    difference = rows_expected - rows_loaded
+    percent = rows_loaded / rows_expected * 100
 
-status = ""   # replace with your if / else (or if / elif / else)
+    # checked from most specific to least, the first True one wins
+    if percent >= 100:
+        status = "OVER LIMIT"
+        over_limit_count += 1
+    elif percent >= 90:
+        status = "WARNING"
+    else:
+        status = "OK"
 
+    # =============================================================== OUTPUT
+    print()
+    print("=" * 34)
+    print(f"  RECORD CHECK  -  {dataset_name}")
+    print("=" * 34)
+    print(f"  {'Loaded':<12}{rows_loaded:>14.2f}")
+    print(f"  {'Expected':<12}{rows_expected:>14.2f}")
+    print(f"  {'Missing':<12}{difference:>14.2f}")
+    print(f"  {'Percent':<12}{percent:>14.2f} %")
+    print(f"  {'Status':<12}{status:>14}")
+    print("=" * 34)
+    print()
 
-# =================================================================== OUTPUT
-# 4. Print the report.
-#
-#    Threshold : the three values you were given, plus status, inside a border
-#    Typical   : add difference and percent, 2 decimal places, right-aligned
-#    Excellent : wrap sections 1-4 in a loop so you can check as many records
-#                as you like in one run - type "quit" as the label to stop.
-#                Keep count of how many came back OVER LIMIT and print that
-#                once, after the loop ends.
-
-print()
-print("=" * 34)
-print(f"  RECORD CHECK  -  {label}")
-print("=" * 34)
-
-# your report lines go here
-
-print("=" * 34)
+# runs once, after the loop has ended
+print(f"Records over limit: {over_limit_count}")
 
 
 # ==========================================================================
-# 5. Before you finish:
+# Before you finish:
 #
 #    [ ] Run it three times with different numbers
 #    [ ] Run it with a total of 0 and note the error (do not fix it yet)
