@@ -2,82 +2,78 @@
 RECORD CHECK  -  my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
+Name  : Abdul Rahman Majid
+Lane  : AI
+Date  : 9/11/2026
 
 Run it:   python template.py
 
-Work through the numbered sections in order. Each one tells you what it must do.
-Delete these instructions as you replace them with your code.
+Type "quit" as the dataset name to stop.
 """
 
-# =================================================================== FUNCTIONS
-# 1. Write a function called status_of(percent) that returns "OVER LIMIT"
-#    (100% or more), "WARNING" (90% or more), or "OK" (anything else).
-#
-#    Typical and above: also write check(value, limit) that returns the
-#    difference and the percentage as two values - do not print anything
-#    inside it, only calculate and return.
-#
-#    Excellent: also write print_report(label, value, limit, difference,
-#    percent, status) that does ALL of the printing below - nothing outside
-#    it should contain a print() of its own.
-#
-#    Give each function a one-line docstring saying what it does.
-
-# your function(s) go here
-
-
-# ==================================================================== INPUT
-# 2. Ask for your three values.
-#
-#    - the first is TEXT      (a name, a hostname, an IP)  -> no conversion needed
-#    - the second is a NUMBER (use float(), not int())
-#    - the third  is a NUMBER (use float(), not int())
-
-label = ""      # replace with an input() call
-value = 0.0     # replace with an input() call, converted
-limit = 0.0     # replace with an input() call, converted
+# ============================================================== FUNCTIONS
+def status_of(percent):
+    """Return the status based on the percent value."""
+    if percent >= 100:
+        return "OVER LIMIT"
+    elif percent >= 90:
+        return "WARNING"
+    else:
+        return "OK"
+    
+def check(value, limit):
+    """Return the difference and percent based on value and limit."""
+    difference = limit - value
+    percent = value / limit * 100
+    return difference, percent
 
 
-# ================================================================== PROCESS
-# 3. Work out the difference, the percentage, and the status.
-#
-#    Threshold : call status_of() to get the status. Work out the
-#                difference and percentage inline, not in a function.
-#    Typical   : call check() to get the difference and percentage instead.
 
-difference = 0.0   # replace with your code
-percent = 0.0       # replace with your code
-status = ""          # replace with your code
+def print_report(label, value, limit, difference, percent, status):
+    """Print the report based on the provided parameters."""
+    print()
+    print("=" * 34)
+    print(f"  RECORD CHECK  -  {label}")
+    print("=" * 34)
+    print(f"  {'Loaded':<12}{value:>14.2f}")
+    print(f"  {'Expected':<12}{limit:>14.2f}")
+    print(f"  {'Missing':<12}{difference:>14.2f}")
+    print(f"  {'Percent':<12}{percent:>14.2f} %")
+    print(f"  {'Status':<12}{status:>14}")
+    print("=" * 34)
+    print()
 
 
-# =================================================================== OUTPUT
-# 4. Print the report.
-#
-#    Threshold : the three values you were given, plus status, inside a border
-#    Typical   : add difference and percent, 2 decimal places, right-aligned
-#    Excellent : call print_report() instead of printing directly here, and
-#                wrap sections 2-4 in a loop so you can check as many records
-#                as you like in one run - type "quit" as the label to stop.
-#                Keep count of how many came back OVER LIMIT and print that
-#                once, after the loop ends.
+# keeps count of how many records came back OVER LIMIT
+over_limit_count = 0
 
-print()
-print("=" * 34)
-print(f"  RECORD CHECK  -  {label}")
-print("=" * 34)
+while True:
 
-# your report lines go here
+    # ================================================================ INPUT
+    dataset_name = input("Dataset name (or 'quit'): ")
+    if dataset_name == "quit":
+        break
 
-print("=" * 34)
+    rows_loaded = float(input("Rows loaded: "))
+    rows_expected = float(input("Rows expected: "))
+
+    # ============================================================== PROCESS
+    difference, percent = check(rows_loaded, rows_expected)
+    status = status_of(percent)
+
+    if status == "OVER LIMIT":
+        over_limit_count += 1
+
+    # =============================================================== OUTPUT
+    print_report(dataset_name, rows_loaded, rows_expected, difference, percent, status)
+
+# runs once, after the loop has ended
+print(f"Records over limit: {over_limit_count}")
 
 
 # ==========================================================================
-# 5. Before you finish:
+# Before you finish:
 #
 #    [ ] Run it three times with different numbers
 #    [ ] Run it with a total of 0 and note the error (do not fix it yet)
-#    [ ] Check every function does one job - if a function both calculates
-#        and prints, split it
+#    [ ] Check every variable name says what it holds

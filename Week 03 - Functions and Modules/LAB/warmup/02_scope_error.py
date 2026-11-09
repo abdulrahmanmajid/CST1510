@@ -3,7 +3,8 @@
 
 def check(value, limit):
     status = "OVER LIMIT" if value > limit else "OK"
+    return status # we werent returning status
 
-check(87, 100)
+status = check(87, 100) # we werent defining what status is 
 
 print(status)
