@@ -2,9 +2,9 @@
 RECORD CHECK  -  my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
+Name  : Abdul Rahman Majid
+Lane  : AI
+Date  : 11/11/2026
 
 Run it:   python template.py
 
@@ -13,13 +13,14 @@ Delete these instructions as you replace them with your code.
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # ==================================================================== LOAD
 # 1. Read your data file with pd.read_csv(). Make your own CSV, header row
 #    plus at least 5 data rows: label,value,limit (or your lane's own field
 #    names - same shape, different words).
 
-df = None   # replace with pd.read_csv("your_file.csv")
+df = pd.read_csv("datasets.csv")
 
 
 # ================================================================= PROCESS
@@ -28,7 +29,11 @@ df = None   # replace with pd.read_csv("your_file.csv")
 #    Typical and above: also add a "status" column using .apply() with a
 #    lambda - "OVER LIMIT" (100%+), "WARNING" (90%+), otherwise "OK".
 
-# your column(s) go here
+df["percent"] = (df["rows_loaded"] / df["rows_expected"]) * 100
+
+df["status"] = df["percent"].apply(
+    lambda p: "OVER LIMIT" if p >= 100 else "WARNING" if p >= 90 else "OK"
+)
 
 
 # ================================================================== OUTPUT
@@ -42,6 +47,25 @@ df = None   # replace with pd.read_csv("your_file.csv")
 #                one bar chart of the counts per status.
 
 print(df)
+
+not_ok = df[df["status"] != "OK"]
+print("\nNot OK:")
+print(not_ok)
+
+status_counts = df.groupby("status")["dataset"].count()
+print("\nCount per status:")
+print(status_counts)
+
+df.to_csv("datasets_report.csv", index=False)
+print("\nSaved datasets_report.csv")
+
+status_counts.plot(kind="bar")
+plt.title("Datasets per status")
+plt.xlabel("Status")
+plt.ylabel("Number of datasets")
+plt.tight_layout()
+plt.savefig("status_chart.png")
+print("Saved status_chart.png")
 
 
 # ==========================================================================
