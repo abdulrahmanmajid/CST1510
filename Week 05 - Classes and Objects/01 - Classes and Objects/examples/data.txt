@@ -1,0 +1,5 @@
+ali,AI and DS,85
+sara,IT,72
+john,CS,65
+mary,EE,90
+ahmed,ME,55
