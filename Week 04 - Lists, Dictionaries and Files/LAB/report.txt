@@ -1,0 +1,5 @@
+survey_2026,WARNING
+sales_q3,WARNING
+sensor_log,OVER LIMIT
+reviews_raw,OK
+clinic_visits,WARNING
